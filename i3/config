@@ -63,8 +63,6 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -153,14 +151,6 @@ bar {
 client.focused              #4C566A #4C566A #4C566A
 client.unfocused            #2E3440 #2E3440 #2E3440
 
-
-
-
-bindsym $mod+F1 exec brave-browser
-bindsym $mod+F2 exec xterm -e ranger
-bindsym $mod+F3 exec minetest
-
-
 #
 for_window [urgent="latest"] focus
 focus_on_window_activation focus
@@ -171,9 +161,10 @@ exec feh --bg-scale /home/azim/images/mountain.png
 
 
 # Open applications on specific workspaces
-assign [class="qutebrowser"] $ws1
 assign [class="Steam"] $ws3
 
+
+#add russian layout
 exec setxkbmap "us,ru" ,"winkeys" "grp:ctrl_shift_toggle,grep_led:scroll"
 
 
