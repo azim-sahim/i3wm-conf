@@ -1,0 +1,183 @@
+#set alt as main button
+set $mod Mod4
+
+#set font
+font -misc-fixed-medium-r-normal-*-15-*-*-*-*-*-iso10646-*
+
+# small font
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec xterm
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+#New dmenu
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# Old dmenu
+# bindsym $mod+d exec dmenu_run
+
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+
+# move windows
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+
+# Set shut down, restart and locking features
+set $mode_system (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+0 mode "$mode_system"
+
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+		
+		#resize buttons
+        bindsym h resize grow width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink width 10 px or 10 ppt
+
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+
+# i3bar settings
+bar {
+	status_command i3status
+	position top
+    colors {
+
+        background #2e3440 
+        statusline #d8dee9
+        separator  #d8dee9
+
+#                      border  backgr. text
+
+        focused_workspace  #434c5e #596680 #d8dee9
+        active_workspace   #434c5e #2E3440 #d8dee9
+        inactive_workspace #434c5e #2E3440 #d8dee9
+        binding_mode       #434c5e #2E3440 #d8dee9
+        urgent_workspace   #434c5e #2E3440 #d8dee9
+    }
+}
+
+client.focused              #4C566A #4C566A #4C566A
+client.unfocused            #2E3440 #2E3440 #2E3440
+
+
+
+
+bindsym $mod+F1 exec brave-browser
+bindsym $mod+F2 exec xterm -e ranger
+bindsym $mod+F3 exec minetest
+
+
+#
+for_window [urgent="latest"] focus
+focus_on_window_activation focus
+
+#Some standart settings
+default_border pixel
+exec feh --bg-scale /home/azim/images/mountain.png
+
+
+# Open applications on specific workspaces
+assign [class="qutebrowser"] $ws1
+assign [class="Steam"] $ws3
+
+exec setxkbmap "us,ru" ,"winkeys" "grp:ctrl_shift_toggle,grep_led:scroll"
+
+
+# screenshot
+bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`' # All screens
+
+bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`' # Area selection
